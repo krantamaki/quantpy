@@ -9,8 +9,11 @@
 #define SIMD_HPP
 
 
-// Define the size of the SIMD vector registers
-#define SIMD_SIZE 32  // Bytes  (Note this should be changed to something that can be altered at compile time)
+/**
+ * @brief The size of the SIMD vectors in bytes
+ * @todo Instead of hardcoding this it should be alterable at least at compile time
+ */
+#define SIMD_SIZE 32  // Bytes
 
 
 namespace simd {
@@ -24,7 +27,9 @@ namespace simd {
    */
   template <typename T>
   struct simd {
+
     typedef T data __attribute__ ((__vector_size__ (SIMD_SIZE)));
+
   };
 
 
@@ -39,6 +44,7 @@ namespace simd {
    */
   template <typename T, bool vectorize>
   auto choose_simd() {
+
     if constexpr (vectorize) {
       typename simd<T>::data a;
       return a;
@@ -47,6 +53,7 @@ namespace simd {
       T a;
       return a;
     }
+
   }
 
 

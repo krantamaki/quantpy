@@ -1,6 +1,7 @@
 /**
  * @file utils.hpp
- * @brief Generic C++ utility functions
+ * @brief Generic C++ utility functions. 
+ * @details Independent of other utility headers
  * @author Kasper Rantamäki
  * @date 2026-01-10
  */
