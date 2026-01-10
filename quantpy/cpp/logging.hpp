@@ -33,46 +33,46 @@
  * @details Note that the function uses the __PRETTY_FUNCTION__ macro which is GCC specific.
  * Unlike other logging macros the error message throws an exception
  * @see _errorMsg() for more info
- * @param args  Variadic arguments from which the error message is formed
- * @returns     Void
+ * @param ...  Variadic arguments from which the error message is formed
+ * @returns    Void
  */
-#define ERROR(args) { logging::_errorMsg(__FILE__, __PRETTY_FUNCTION__, __LINE__, args); }
+#define ERROR(...) { logging::_errorMsg(__FILE__, __PRETTY_FUNCTION__, __LINE__, __VA_ARGS__); }
 
 
 /**
  * @brief Warning message macro
  * @see _warningMsg() for more info
- * @param args  Variadic arguments from which the warning message is formed
- * @returns     Void
+ * @param ...  Variadic arguments from which the warning message is formed
+ * @returns    Void
  */
-#define WARNING(args) { logging::_warningMsg(__func__, args); }
+#define WARNING(...) { logging::_warningMsg(__func__, __VA_ARGS__); }
 
 
 /**
  * @brief Info message macro
  * @see _infoMsg() for more info
- * @param args  Variadic arguments from which the info message is formed
- * @returns     Void
+ * @param ...  Variadic arguments from which the info message is formed
+ * @returns    Void
  */
-#define INFO(args) { logging::_infoMsg(__func__, args); }
+#define INFO(...) { logging::_infoMsg(__func__, __VA_ARGS__); }
 
 
 /**
  * @brief Low priority info message macro
  * @see _lowPriorityMsg() for more info
- * @param args  Variadic arguments from which the low priority info message is formed
- * @returns     Void
+ * @param ...  Variadic arguments from which the low priority info message is formed
+ * @returns    Void
  */
-#define LOWPRIORITY(args) { logging::_lowPriorityMsg(__func__, args); }
+#define LOWPRIORITY(...) { logging::_lowPriorityMsg(__func__, __VA_ARGS__); }
 
 
 /**
  * @brief Debug message macro
  * @see _debugMsg() for more info
- * @param args  Variadic arguments from which the debug message is formed
- * @returns     Void
+ * @param ...  Variadic arguments from which the debug message is formed
+ * @returns    Void
  */
-#define DEBUG(args) { logging::_debugMsg(__func__, args); }
+#define DEBUG(...) { logging::_debugMsg(__func__, __VA_ARGS__); }
 
 
 namespace logging {
