@@ -4,8 +4,8 @@
  * @date 2026-01-10
  */
 
-#ifndef BINARY_SEARCH_HPP
-#define BINARY_SEARCH_HPP
+#ifndef BISECTION_METHOD_HPP
+#define BISECTION_METHOD_HPP
 
 
 #include <functional>
@@ -27,7 +27,7 @@ namespace opt {
    * If 'func' is a discrete function the default value doesn't compile
    * @param rtol   The tolerance for stopping condition (relative tolerance): \f$ \left| \frac{V_n - V_{n - 1}}{V_n} \right| < atol \f$. Defaults to 1e-6. 
    * If 'func' is a discrete function the default value doesn't compile
-   * @returns The root of the function
+   * @returns      The root of the function
    */
   template <typename T>
   T bisectionMethod(std::function<T (T)> func, T start, T end, T atol = 1e-6, T rtol = 1e-6) {
@@ -51,7 +51,7 @@ namespace opt {
 
     while ( (abs(func_mid - last_func_mid) > atol) & (abs((func_mid - last_func_mid) / func_mid) > rtol) ) {
 
-      last_func_mid = func_mid
+      last_func_mid = func_mid;
 
       if ( func_mid * func(start) < (T)0.0 ) { 
         end = mid;
