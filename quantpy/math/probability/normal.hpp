@@ -77,7 +77,7 @@ namespace quantpy {
           }
 
           if ( p % 2 == 0 ) {
-            return pow(std, (T)p) * (T)doubleFactorial(p - 1);
+            return pow(std, (T)p) * (T)special::doubleFactorial<int>(p - 1);
           }
 
           return (T)0.0;
