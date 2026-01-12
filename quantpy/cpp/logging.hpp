@@ -75,145 +75,148 @@
 #define DEBUG(...) { logging::_debugMsg(__func__, __VA_ARGS__); }
 
 
-
 namespace quantpy {
 
-  namespace logging {
+  namespace cpp {
+
+    namespace logging {
 
 
-    /**
-     * @brief Function that defines and returns the verbosity level
-     * @details Verbosity has 5 levels:
-     *   1: Error messages
-     *   2: 1 and warning messages
-     *   3: 2 and base info messages
-     *   4: 3 and low priority info messages
-     *   5: Everything (i.e. 4 and debug messages)
-     * If an improper level is passed will default to level 5.
-     * Note that the verbosity can only be set once during the program execution
-     * @param _verbosity  The wanted verbosity level. Defaults to the defined base verbosity level
-     * @returns           The active verbosity level
-     */
-    inline int verbosity(int _verbosity = BASE_VERBOSITY) {
+      /**
+       * @brief Function that defines and returns the verbosity level
+       * @details Verbosity has 5 levels:
+       *   1: Error messages
+       *   2: 1 and warning messages
+       *   3: 2 and base info messages
+       *   4: 3 and low priority info messages
+       *   5: Everything (i.e. 4 and debug messages)
+       * If an improper level is passed will default to level 5.
+       * Note that the verbosity can only be set once during the program execution
+       * @param _verbosity  The wanted verbosity level. Defaults to the defined base verbosity level
+       * @returns           The active verbosity level
+       */
+      inline int verbosity(int _verbosity = BASE_VERBOSITY) {
 
-      static bool firstCall = true;
-      static int set_verbosity = BASE_VERBOSITY;
+        static bool firstCall = true;
+        static int set_verbosity = BASE_VERBOSITY;
 
-      if ( firstCall ) {
-        firstCall = false;
+        if ( firstCall ) {
+          firstCall = false;
 
-        if ( _verbosity < 0 || _verbosity > 5 ) {
-          set_verbosity = 5;
-          return set_verbosity;
+          if ( _verbosity < 0 || _verbosity > 5 ) {
+            set_verbosity = 5;
+            return set_verbosity;
+          }
+          set_verbosity = _verbosity;
         }
-        set_verbosity = _verbosity;
+
+        return set_verbosity;
+
       }
 
-      return set_verbosity;
 
-    }
+      /**
+       * @brief Function that generates and throws a more descriptive (runtime) error
+       * @details The error message consists of the filename, function name, linenumber and the message itself
+       * @see ERROR() macro for usage
+       * @tparam Args  The variadic argument type
+       * @param file   Pointer to a filename
+       * @param func   Pointer to a function name
+       * @param line   The line number
+       * @param args   The variadic arguments
+       * @returns      Void
+       */
+      template <class... Args>
+      void _errorMsg(const char* file, const char* func, int line, Args... args) {
 
+        std::ostringstream msgStream;
 
-    /**
-     * @brief Function that generates and throws a more descriptive (runtime) error
-     * @details The error message consists of the filename, function name, linenumber and the message itself
-     * @see ERROR() macro for usage
-     * @tparam Args  The variadic argument type
-     * @param file   Pointer to a filename
-     * @param func   Pointer to a function name
-     * @param line   The line number
-     * @param args   The variadic arguments
-     * @returns      Void
-     */
-    template <class... Args>
-    void _errorMsg(const char* file, const char* func, int line, Args... args) {
+        msgStream << "\n" << "ERROR: In file " << file << " at function " << func << " on line " << line << " : " << utils::formString(args);
+        std::string msgString = msgStream.str();
+        std::cout << msgString << "\n\n" << std::endl;
 
-      std::ostringstream msgStream;
+        throw std::runtime_error(msgString);
 
-      msgStream << "\n" << "ERROR: In file " << file << " at function " << func << " on line " << line << " : " << utils::formString(args);
-      std::string msgString = msgStream.str();
-      std::cout << msgString << "\n\n" << std::endl;
-
-      throw std::runtime_error(msgString);
-
-    }
-
-
-    /**
-     * @brief Function that forms and prints a warning message
-     * @details The warning is printed only if the verbosity level is set to greater than 1
-     * @see WARNING() macro for usage
-     * @tparam Args  The variadic argument type
-     * @param func   Pointer to a function name
-     * @param args   The variadic arguments
-     * @returns      Void
-     */
-    template <class... Args>
-    void _warningMsg(const char* func, Args... args) {
-
-      if (verbosity() > 1) {
-        std::cout << func << ": " << "WARNING! " << utils::formString(args) << std::endl;
-      }
-      
-    }
-
-
-    /**
-     * @brief Function that forms and prints an information message
-     * @details The info message is printed only if the verbosity level is set to greater than 2
-     * @see INFO() macro for usage
-     * @tparam Args  The variadic argument type
-     * @param func   Pointer to a function name
-     * @param args   The variadic arguments
-     * @returns      Void
-     */
-    template <class... Args>
-    void _infoMsg(const char* func, Args... args) {
-
-      if (verbosity() > 2) {
-        std::cout << func << ": " << utils::formString(args) << std::endl;
       }
 
-    }
 
+      /**
+       * @brief Function that forms and prints a warning message
+       * @details The warning is printed only if the verbosity level is set to greater than 1
+       * @see WARNING() macro for usage
+       * @tparam Args  The variadic argument type
+       * @param func   Pointer to a function name
+       * @param args   The variadic arguments
+       * @returns      Void
+       */
+      template <class... Args>
+      void _warningMsg(const char* func, Args... args) {
 
-    /**
-     * @brief Function that forms and prints a lower priority information message
-     * @details The low priority message is printed only if the verbosity level is set to greater than 3
-     * @see LOWPRIORITY() macro for usage
-     * @tparam Args  The variadic argument type
-     * @param func   Pointer to a function name
-     * @param args   The variadic arguments
-     * @returns      Void
-     */
-    template <class... Args>
-    void _lowPriorityMsg(const char* func, Args... args) {
-
-      if (verbosity() > 3) {
-        std::cout << func << ": " << utils::formString(args) << std::endl;
+        if (verbosity() > 1) {
+          std::cout << func << ": " << "WARNING! " << utils::formString(args) << std::endl;
+        }
+        
       }
 
-    }
 
+      /**
+       * @brief Function that forms and prints an information message
+       * @details The info message is printed only if the verbosity level is set to greater than 2
+       * @see INFO() macro for usage
+       * @tparam Args  The variadic argument type
+       * @param func   Pointer to a function name
+       * @param args   The variadic arguments
+       * @returns      Void
+       */
+      template <class... Args>
+      void _infoMsg(const char* func, Args... args) {
 
-    /**
-     * @brief Function that forms and prints a debug message
-     * @details The debug message is printed only if the verbosity level is set to greater than 4
-     * @see DEBUG() macro for usage
-     * @tparam Args  The variadic argument type
-     * @param func   Pointer to a function name
-     * @param args   The variadic arguments
-     * @returns      Void
-     */
-    template <class... Args>
-    void _debugMsg(const char* func, Args... args) {
+        if (verbosity() > 2) {
+          std::cout << func << ": " << utils::formString(args) << std::endl;
+        }
 
-      if (verbosity() > 4) {
-        std::cout << func << ": " << "DEBUG - " << utils::formString(args) << std::endl;
       }
 
-    }
 
+      /**
+       * @brief Function that forms and prints a lower priority information message
+       * @details The low priority message is printed only if the verbosity level is set to greater than 3
+       * @see LOWPRIORITY() macro for usage
+       * @tparam Args  The variadic argument type
+       * @param func   Pointer to a function name
+       * @param args   The variadic arguments
+       * @returns      Void
+       */
+      template <class... Args>
+      void _lowPriorityMsg(const char* func, Args... args) {
+
+        if (verbosity() > 3) {
+          std::cout << func << ": " << utils::formString(args) << std::endl;
+        }
+
+      }
+
+
+      /**
+       * @brief Function that forms and prints a debug message
+       * @details The debug message is printed only if the verbosity level is set to greater than 4
+       * @see DEBUG() macro for usage
+       * @tparam Args  The variadic argument type
+       * @param func   Pointer to a function name
+       * @param args   The variadic arguments
+       * @returns      Void
+       */
+      template <class... Args>
+      void _debugMsg(const char* func, Args... args) {
+
+        if (verbosity() > 4) {
+          std::cout << func << ": " << "DEBUG - " << utils::formString(args) << std::endl;
+        }
+
+      }
+
+
+    }
 
   }
 
