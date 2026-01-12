@@ -43,7 +43,7 @@ namespace quantpy {
           }
 
           if ( func(start) >= func(end) ) {
-            ERROR("Function value at start point needs to be less that at the end point! (", func(start) " !< ", func(end), ")");
+            ERROR("Function value at start point needs to be less that at the end point! (", func(start), " !< ", func(end), ")");
           }
 
           T mid = (T)((end + start) / 2);

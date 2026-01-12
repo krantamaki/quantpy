@@ -37,7 +37,7 @@
  * @param ...  Variadic arguments from which the error message is formed
  * @returns    Void
  */
-#define ERROR(...) { logging::_errorMsg(__FILE__, __PRETTY_FUNCTION__, __LINE__, __VA_ARGS__); }
+#define ERROR(...) { quantpy::cpp::logging::_errorMsg(__FILE__, __PRETTY_FUNCTION__, __LINE__, __VA_ARGS__); }
 
 
 /**
@@ -46,7 +46,7 @@
  * @param ...  Variadic arguments from which the warning message is formed
  * @returns    Void
  */
-#define WARNING(...) { logging::_warningMsg(__func__, __VA_ARGS__); }
+#define WARNING(...) { quantpy::cpp::logging::_warningMsg(__func__, __VA_ARGS__); }
 
 
 /**
@@ -55,7 +55,7 @@
  * @param ...  Variadic arguments from which the info message is formed
  * @returns    Void
  */
-#define INFO(...) { logging::_infoMsg(__func__, __VA_ARGS__); }
+#define INFO(...) { quantpy::cpp::logging::_infoMsg(__func__, __VA_ARGS__); }
 
 
 /**
@@ -64,7 +64,7 @@
  * @param ...  Variadic arguments from which the low priority info message is formed
  * @returns    Void
  */
-#define LOWPRIORITY(...) { logging::_lowPriorityMsg(__func__, __VA_ARGS__); }
+#define LOWPRIORITY(...) { quantpy::cpp::logging::_lowPriorityMsg(__func__, __VA_ARGS__); }
 
 
 /**
@@ -73,7 +73,7 @@
  * @param ...  Variadic arguments from which the debug message is formed
  * @returns    Void
  */
-#define DEBUG(...) { logging::_debugMsg(__func__, __VA_ARGS__); }
+#define DEBUG(...) { quantpy::cpp::logging::_debugMsg(__func__, __VA_ARGS__); }
 
 
 namespace quantpy {
