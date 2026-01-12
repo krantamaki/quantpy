@@ -59,8 +59,11 @@ namespace quantpy {
       inline std::string join(const std::vector<std::string> strs, char delim=' ') {
 
         std::ostringstream stream;
+        stream << strs[0];
 
-        for (const std::string str : strs) {
+        std::vector<std::string> strs_slice = std::vector<std::string>(strs.begin() + 1, strs.end());
+
+        for (const std::string& str : strs_slice) {
           stream << delim << str;
         }
 

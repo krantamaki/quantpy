@@ -15,6 +15,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <cstdarg>
 
 #include "utils.hpp"
 
@@ -131,7 +132,7 @@ namespace quantpy {
 
         std::ostringstream msgStream;
 
-        msgStream << "\n" << "ERROR: In file " << file << " at function " << func << " on line " << line << " : " << utils::formString(args);
+        msgStream << "\n" << "ERROR: In file " << file << " at function " << func << " on line " << line << " : " << utils::formString(args...);
         std::string msgString = msgStream.str();
         std::cout << msgString << "\n\n" << std::endl;
 
@@ -153,7 +154,7 @@ namespace quantpy {
       void _warningMsg(const char* func, Args... args) {
 
         if (verbosity() > 1) {
-          std::cout << func << ": " << "WARNING! " << utils::formString(args) << std::endl;
+          std::cout << func << ": " << "WARNING! " << utils::formString(args...) << std::endl;
         }
         
       }
@@ -172,7 +173,7 @@ namespace quantpy {
       void _infoMsg(const char* func, Args... args) {
 
         if (verbosity() > 2) {
-          std::cout << func << ": " << utils::formString(args) << std::endl;
+          std::cout << func << ": " << utils::formString(args...) << std::endl;
         }
 
       }
@@ -191,7 +192,7 @@ namespace quantpy {
       void _lowPriorityMsg(const char* func, Args... args) {
 
         if (verbosity() > 3) {
-          std::cout << func << ": " << utils::formString(args) << std::endl;
+          std::cout << func << ": " << utils::formString(args...) << std::endl;
         }
 
       }
@@ -210,7 +211,7 @@ namespace quantpy {
       void _debugMsg(const char* func, Args... args) {
 
         if (verbosity() > 4) {
-          std::cout << func << ": " << "DEBUG - " << utils::formString(args) << std::endl;
+          std::cout << func << ": " << "DEBUG - " << utils::formString(args...) << std::endl;
         }
 
       }
