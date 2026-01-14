@@ -1,5 +1,5 @@
 /**
- * @brief AbsoluteCEV.hpp
+ * @file AbsoluteCEV.hpp
  * @details Constant elasticity of volatility (CEV) family of stochastic processes was first considered
  * by Cox in 1975 [1]. Beckers [2] provided closed form solutions for the general CEV process 
  * 
@@ -26,9 +26,6 @@
 
 #include <cmath>
 #include <tuple>
-
-#include "../../../math/probability/normal.hpp"
-#include "../../../math/optimization/rootFinding.hpp"
 
 
 namespace quantpy {
