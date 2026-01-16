@@ -40,7 +40,7 @@ namespace quantpy {
         T pdf(T mean, T std, T x) {
 
           T var = std * std;
-          return 1 / sqrt(2 * PI * var) * exp(-pow(x - mean, (T)2) / (2 * var));
+          return (T)1. / sqrt((T)2. * PI * var) * exp(-pow(x - mean, (T)2.) / ((T)2. * var));
 
         }
 
@@ -56,7 +56,7 @@ namespace quantpy {
         template <typename T>
         T cdf(T mean, T std, T x) {
 
-          return 1 / 2 * (1 + erf((x - mean) / (std * sqrt(2))));
+          return (T)1. / (T)2. * ((T)1. + erf((x - mean) / (std * sqrt((T)2.))));
 
         }
 

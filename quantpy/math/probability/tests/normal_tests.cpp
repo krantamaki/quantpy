@@ -39,7 +39,7 @@ namespace quantpy {
 
           DEBUG("Found PDF: ", foundPDF);
 
-          return ( abs(correctPDF - foundPDF) < TEST_TOL );
+          return ( fabs(correctPDF - foundPDF) < TEST_TOL );
 
         } 
 
@@ -52,7 +52,7 @@ namespace quantpy {
 
           DEBUG("Found PDF: ", foundPDF);
 
-          return ( abs(correctPDF - foundPDF) < TEST_TOL );
+          return ( fabs(correctPDF - foundPDF) < TEST_TOL );
 
         } 
 
@@ -65,7 +65,7 @@ namespace quantpy {
 
           DEBUG("Found CDF: ", foundCDF);
 
-          return ( abs(correctCDF - foundCDF) < TEST_TOL );
+          return ( fabs(correctCDF - foundCDF) < TEST_TOL );
           
         } 
 
@@ -78,7 +78,7 @@ namespace quantpy {
 
           DEBUG("Found CDF: ", foundCDF);
 
-          return ( abs(correctCDF - foundCDF) < TEST_TOL );
+          return ( fabs(correctCDF - foundCDF) < TEST_TOL );
 
         } 
 
@@ -91,7 +91,7 @@ namespace quantpy {
 
           DEBUG("Found moment: ", foundMoment);
 
-          return ( abs(correctMoment - foundMoment) < TEST_TOL );
+          return ( fabs(correctMoment - foundMoment) < TEST_TOL );
 
         } 
 
@@ -104,7 +104,7 @@ namespace quantpy {
 
           DEBUG("Found moment: ", foundMoment);
 
-          return ( abs(correctMoment - foundMoment) < TEST_TOL );
+          return ( fabs(correctMoment - foundMoment) < TEST_TOL );
 
         } 
 
