@@ -43,7 +43,7 @@ namespace quantpy {
 
           DEBUG("Found root: ", foundRoot);
 
-          return ( abs(correctRoot - foundRoot) < TEST_TOL );
+          return ( fabs(correctRoot - foundRoot) < TEST_TOL );
 
         }
 
@@ -60,7 +60,7 @@ namespace quantpy {
 
           DEBUG("Found root: ", foundRoot);
 
-          return ( abs(correctRoot - foundRoot) < TEST_TOL );
+          return ( fabs(correctRoot - foundRoot) < TEST_TOL );
           
         }
 
@@ -77,7 +77,7 @@ namespace quantpy {
 
           DEBUG("Found root: ", foundRoot);
 
-          return ( abs(correctRoot - foundRoot) < TEST_TOL );
+          return ( fabs(correctRoot - foundRoot) < TEST_TOL );
           
         }
 

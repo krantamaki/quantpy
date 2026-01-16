@@ -42,11 +42,11 @@ namespace quantpy {
             ERROR("Start point needs to be lower than the end point! (", start, " !< ", end, ")");
           }
 
-          if ( func(start) >= func(end) ) {
-            ERROR("Function value at start point needs to be less that at the end point! (", func(start), " !< ", func(end), ")");
+          if ( func(start) * func(end) > 0 ) {
+            ERROR("Function value at start point needs to have different sign to the value at end point! (", func(start), " has the same sign as ", func(end), ")");
           }
 
-          T mid = (T)((end + start) / 2);
+          T mid = (end + start) / (T)2.;
           T func_mid = func(mid);
 
           if ( func_mid == (T)0.0 ) {
@@ -55,18 +55,18 @@ namespace quantpy {
 
           T last_func_mid = func(end); 
 
-          while ( (abs(func_mid - last_func_mid) > atol) & (abs((func_mid - last_func_mid) / func_mid) > rtol) ) {
+          while ( (fabs(func_mid - last_func_mid) > atol) | (fabs((func_mid - last_func_mid) / func_mid) > rtol) ) {
 
             last_func_mid = func_mid;
 
-            if ( func_mid * func(start) < (T)0.0 ) { 
+            if ( func_mid * func(start) < (T)0. ) { 
               end = mid;
             }
             else {
               start = mid;
             }
 
-            mid = (T)((end + start) / 2);
+            mid = (end + start) / (T)2.;
             func_mid = func(mid);
 
           }
