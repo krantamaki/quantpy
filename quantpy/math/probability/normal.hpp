@@ -9,6 +9,8 @@
 
 
 #include <cmath>
+#include <vector>
+#include <random>
 
 #include "../../cpp/logging.hpp"
 #include "../special/factorial.hpp"
@@ -81,6 +83,38 @@ namespace quantpy {
           }
 
           return (T)0.0;
+
+        }
+
+
+        /**
+         * @brief Samples from a given normal distribution
+         * @tparam T    The template type
+         * @param mean  The mean of the normal distribution
+         * @param std   The standard deviation of the normal distribution
+         * @param n     The number of observations sampled
+         * @returns     A std::vector object with the samples
+         */
+        template <typename T>
+        std::vector<T> sample(T mean, T std, int n) {
+
+          if ( n < 0 ) {
+            ERROR("The number of samples can not be negative! (", n, " < 0)");
+          }
+
+          std::vector<T> samples;
+          samples.reserve(n);
+
+          std::random_device rd{};
+          std::mt19937 generator{rd()};
+
+          std::normal_distribution<T> distribution(mean, std);
+
+          for (int i = 0; i < n; i++) {
+            samples.push_back(distribution(generator));
+          }
+
+          return samples;
 
         }
 

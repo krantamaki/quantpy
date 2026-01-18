@@ -10,7 +10,6 @@
 
 
 #include <cmath>
-#include <tuple>
 
 #include "../../../../math/probability/normal.hpp"
 #include "../../../../math/optimization/rootFinding.hpp"
@@ -110,6 +109,10 @@ namespace quantpy {
       }
 
 
+      /**
+       * @brief Simple pricer based on the analytical solution to the Black-Scholes equation
+       * @tparam T  The template type. Should be some floating point number type
+       */
       template <typename T>
       class BlackScholes : public BaseEuropeanOptionPricer<T> {
 
@@ -117,6 +120,13 @@ namespace quantpy {
 
           /**
            * @brief Default constructor
+           * @returns  Uninitialized BlackScholes object
+           */
+          BlackScholes() {  }
+
+
+          /**
+           * @brief Main constructor
            * @param r       The (continuously compounding) risk-free rate
            * @param K       The strike price 
            * @param vol     The volatility

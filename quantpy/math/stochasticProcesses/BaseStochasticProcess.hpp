@@ -28,52 +28,31 @@ namespace quantpy {
 
         protected:
 
-          std::function<T, (T)> _rts;    /**< The term-structure for the risk-free rate */
-          std::function<T, (T)> _qts;    /**< The term-structure for the dividend yield */
-          std::function<T, (T)> _volts;  /**< The term-structure for the volatility */
+          std::function<T (T)> _rts;    /**< The term-structure for the risk-free rate */
+          std::function<T (T)> _qts;    /**< The term-structure for the dividend yield */
+          std::function<T (T)> _volts;  /**< The term-structure for the volatility */
 
         public:
 
           /**
-           * @brief Setter for the term-structure of risk-free rates
-           * @returns The term-structure of risk-free rates
+           * @brief Calls the stored function for term-structure of risk-free rates
+           * @returns The risk-free rate for a given maturity
            */
-          virtual std::function<T, (T)>& rts() { return this->_rts; }
-          
-
-          /**
-           * @brief Getter for the term-structure of risk-free rates
-           * @returns The term-structure of risk-free rates
-           */
-          virtual const std::function<T, (T)>& rts() const { return this->_rts; }
+          virtual T rts(T tau) const { return this->_rts(tau); }
 
 
           /**
-           * @brief Setter for the term-structure of volatilities
-           * @returns The term-structure of volatilities
+           * @brief Calls the stored function for term-structure of volatilities
+           * @returns The volatility for a given maturity
            */
-          virtual std::function<T, (T)>& volts() { return this->_volts; }
-          
-
-          /**
-           * @brief Getter for the term-structure of volatilities
-           * @returns The term-structure of volatilities
-           */
-          virtual const std::function<T, (T)>& volts() const { return this->_volts; }
+          virtual T volts(T tau) const { return this->_volts(tau); }
 
 
           /**
-           * @brief Setter for the term-structure of dividend yields
-           * @returns The term-structure of dividend yields
+           * @brief Calls the stored function for term-structure of dividend yields
+           * @returns The dividend yield for a given maturity
            */
-          virtual std::function<T, (T)>& qts() { return this->_qts; }
-          
-
-          /**
-           * @brief Getter for the term-structure of dividend yields
-           * @returns The term-structure of dividend yields
-           */
-          virtual const std::function<T, (T)>& qts() const { return this->_qts; }
+          virtual T qts(T tau) const { return this->_qts(tau); }
 
 
           /**

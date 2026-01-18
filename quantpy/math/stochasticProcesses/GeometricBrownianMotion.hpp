@@ -33,23 +33,24 @@ namespace quantpy {
       template <typename T>
       class GeometricBrownianMotion : public BaseStochasticProcess<T> {
 
-        protected:
-
-          std::function<T, (T)> _rts;    /**< The term-structure for the risk-free rate */
-          std::function<T, (T)> _qts;    /**< The term-structure for the dividend yield */
-          std::function<T, (T)> _volts;  /**< The term-structure for the volatility */
-
         public:
 
           /**
            * @brief Default constructor
+           * @returns  Uninitialized GeometricBrownianMotion object
+           */
+          GeometricBrownianMotion() {  }
+
+
+          /**
+           * @brief Main constructor
            * @details If a constant term-structure is desired, a simple lambda function that returns a constant
            * value can be passed to the constructor
            * @param rts    The term-structure for the risk-free rate
            * @param qts    The term-structure for the dividend yield
            * @param volts  The term-structure for the volatility
            */
-          GeometricBrownianMotion(std::function<T, (T)> rts, std::function<T, (T)> qts, std::function<T, (T)> volts) {
+          GeometricBrownianMotion(std::function<T (T)> rts, std::function<T (T)> qts, std::function<T (T)> volts) {
 
             this->_rts   = rts;
             this->_qts   = qts;
@@ -71,7 +72,7 @@ namespace quantpy {
               ERROR("The number of samples must be positive! (", n, " < 1)");
             }
 
-            std::vector<T> normalSamples = quantpy::math::probability::normal::sample(0, 1, n);
+            std::vector<T> normalSamples = quantpy::math::probability::normal::sample((T)0., (T)1., n);
             std::vector<T> path;
             path.reserve(n + 1);
 
@@ -83,7 +84,7 @@ namespace quantpy {
 
             for (int i = 1; i <= n; i++) {
               T tau_i = tau - i * dt;
-              T vol_i = this->_volts(tau_i)
+              T vol_i = this->_volts(tau_i);
               // Note that the mean is assumed to be the risk-free rate minus the dividend yield
               St = St * exp((this->_rts(tau_i) - this->_qts(tau_i) - vol_i * vol_i / (T)2.) * dt + vol_i * normalSamples[i - 1] * sqrtdt);
               path.push_back(St);

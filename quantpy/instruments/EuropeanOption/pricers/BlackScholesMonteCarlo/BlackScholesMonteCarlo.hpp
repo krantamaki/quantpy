@@ -1,16 +1,17 @@
 /**
- * @file BlackScholes.hpp
- * @brief Simple analytical Black-Scholes pricer for European options. Assumes no dividends
+ * @file BlackScholesMonteCarlo.hpp
+ * @brief Simple pricer based on Monte Carlo simulation under the Black-Scholes assumptions
  * @author Kasper Rantamäki
- * @date 2026-01-16
+ * @date 2026-01-17
  */
 
-#ifndef BLACK_SCHOLES_HPP
-#define BLACK_SCHOLES_HPP
+#ifndef BLACK_SCHOLES_MONTE_CARLO_HPP
+#define BLACK_SCHOLES_MONTE_CARLO_HPP
 
 
 #include <cmath>
 #include <vector>
+#include <functional>
 
 #include "../../../../math/probability/normal.hpp"
 #include "../../../../math/optimization/rootFinding.hpp"
@@ -42,6 +43,13 @@ namespace quantpy {
 
           /**
            * @brief Default constructor
+           * @returns  Uninitialized BlackScholesMonteCarlo object
+           */
+          BlackScholesMonteCarlo() {  }
+
+
+          /**
+           * @brief Main constructor
            * @param process   The (continuously compounding) risk-free rate
            * @param nTrials   The number of trials used in the simulation
            * @param nSteps    The number of steps used in the simulation. Needs to be a positive integer.
@@ -49,18 +57,18 @@ namespace quantpy {
            * @param isCall    Boolean flag telling if the option is a call or a put. Defaults to 'true'
            * @returns         The pricer object
            */
-          BlackScholes(quantpy::math::stochasticProcesses::GeometricBrownianMotion<T> process, T K, int nTrials, int nSteps = 1, bool isCall = true) {
+          BlackScholesMonteCarlo(quantpy::math::stochasticProcesses::GeometricBrownianMotion<T> process, T K, int nTrials, int nSteps = 1, bool isCall = true) {
 
-            if ( this->_nSteps < 1 ) {
-              ERROR("The number of samples must be be positive! (", n, " < 1)");
+            if ( nSteps < 1 ) {
+              ERROR("The number of samples must be be positive! (", nSteps, " < 1)");
             }
 
-            if ( this->_nTrials < 0 ) {
-              ERROR("The number of trials must be positive! (", n, " < 1)");
+            if ( nTrials < 0 ) {
+              ERROR("The number of trials must be positive! (", nTrials, " < 1)");
             }
 
             this->_process = process;
-            this->_nTrials = nTrials
+            this->_nTrials = nTrials;
             this->_nSteps  = nSteps;
             this->_isCall  = isCall;
             this->_K = K;
@@ -81,7 +89,8 @@ namespace quantpy {
             T payoffSum = (T)0.;
 
             for (int i = 0; i < this->_nTrials; i++) {
-              std::vector<T> path = process.sample(St, tau, this->_nSteps);
+              std::vector<T> path = this->_process.sample(St, tau, this->_nSteps);
+
               T finalValue = path[this->_nSteps];
 
               if ( this->_isCall ) {
@@ -92,9 +101,7 @@ namespace quantpy {
               }
             }
 
-            T r = process.rts(tau);
-
-            return payoffSum / (T)this->_nTrials * exp(-r * tau);
+            return payoffSum / (T)this->_nTrials * exp(-this->_process.rts(tau) * tau);
 
           }
 
