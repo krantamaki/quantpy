@@ -12,6 +12,7 @@
 #include <cmath>
 #include <vector>
 #include <functional>
+#include <omp.h>
 
 #include "../../../../math/probability/normal.hpp"
 #include "../../../../math/optimization/rootFinding.hpp"
@@ -86,18 +87,32 @@ namespace quantpy {
            */
           T operator() (T St, T tau, T r = (T)-1., T vol = (T)-1.) const override {
 
+            // Total payoff accumulated over all of the simulations
             T payoffSum = (T)0.;
 
-            for (int i = 0; i < this->_nTrials; i++) {
-              std::vector<T> path = this->_process.sample(St, tau, this->_nSteps);
+            #pragma omp parallel 
+            {
+              // The payoff accumulated within a single thread
+              T threadPayoffSum = (T)0.;
+            
+              #pragma omp for nowait
+              for (int i = 0; i < this->_nTrials; i++) {
+                std::vector<T> path = this->_process.sample(St, tau, this->_nSteps);
 
-              T finalValue = path[this->_nSteps];
+                T finalValue = path[this->_nSteps];
 
-              if ( this->_isCall ) {
-                payoffSum += finalValue > this->_K ? finalValue - this->_K : (T)0.;
+                if ( this->_isCall ) {
+                  threadPayoffSum += finalValue > this->_K ? finalValue - this->_K : (T)0.;
+                }
+                else {
+                  threadPayoffSum += finalValue < this->_K ? this->_K - finalValue : (T)0.;
+                }
               }
-              else {
-                payoffSum += finalValue < this->_K ? this->_K - finalValue : (T)0.;
+
+              #pragma omp critical 
+              {
+                // Accumulate the total payoff sum without race conditions
+                payoffSum += threadPayoffSum;
               }
             }
 
