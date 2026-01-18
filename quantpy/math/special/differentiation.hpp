@@ -73,7 +73,6 @@ namespace quantpy {
         template <typename T>
         T firstCentralDiff(std::function<T (T)> func, T x, T h = DEFAULT_DIFF) {
 
-          DEBUG(func(x + h / (T)2.), " ", func(x - h / (T)2.));
           return (func(x + h / (T)2.) - func(x - h / (T)2.)) / h;
 
         }

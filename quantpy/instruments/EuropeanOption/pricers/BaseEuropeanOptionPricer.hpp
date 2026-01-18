@@ -107,15 +107,16 @@ namespace quantpy {
            * @brief Virtual function for calculating the option delta via finite differences
            * @param St   The price of the underlying
            * @param tau  The time to maturity in years
+           * @param h    The finite difference step size. Defaults to 1e-6
            * @returns    The delta of the option
            */
-          virtual const T delta(T St, T tau) const {
+          virtual const T delta(T St, T tau, T h = 1e-6) const {
 
             auto deltaFunc = [=, this](T S) {
               return this->operator() (S, tau);
             };
 
-            return quantpy::math::special::differentiation::firstCentralDiff<T>(deltaFunc, St);
+            return quantpy::math::special::differentiation::firstCentralDiff<T>(deltaFunc, St, h);
 
           }
 
@@ -124,15 +125,16 @@ namespace quantpy {
            * @brief Virtual function for calculating the option gamma via finite differences
            * @param St   The price of the underlying
            * @param tau  The time to maturity in years
+           * @param h    The finite difference step size. Defaults to 1e-6
            * @returns    The gamma of the option
            */
-          virtual const T gamma(T St, T tau) const {
+          virtual const T gamma(T St, T tau, T h = 1e-6) const {
 
             auto gammaFunc = [=, this](T S) {
               return this->operator() (S, tau);
             };
 
-            return quantpy::math::special::differentiation::secondCentralDiff<T>(gammaFunc, St);
+            return quantpy::math::special::differentiation::secondCentralDiff<T>(gammaFunc, St, h);
 
           }
 
@@ -141,15 +143,16 @@ namespace quantpy {
            * @brief Virtual function for calculating the option vega via finite differences
            * @param St   The price of the underlying
            * @param tau  The time to maturity in years
+           * @param h    The finite difference step size. Defaults to 1e-6
            * @returns    The vega of the option
            */
-          virtual const T vega(T St, T tau) const {
+          virtual const T vega(T St, T tau, T h = 1e-6) const {
 
             auto vegaFunc = [=, this](T vol) {
               return this->operator() (St, tau, this->r(), vol);
             };
 
-            return quantpy::math::special::differentiation::firstCentralDiff<T>(vegaFunc, this->_vol);
+            return quantpy::math::special::differentiation::firstCentralDiff<T>(vegaFunc, this->_vol, h);
 
           }
 
@@ -158,15 +161,16 @@ namespace quantpy {
            * @brief Virtual function for calculating the option rho via finite differences
            * @param St   The price of the underlying
            * @param tau  The time to maturity in years
+           * @param h    The finite difference step size. Defaults to 1e-6
            * @returns    The rho of the option
            */
-          virtual const T rho(T St, T tau) const {
+          virtual const T rho(T St, T tau, T h = 1e-6) const {
 
             auto rhoFunc = [=, this](T r) {
               return this->operator() (St, tau, r);
             };
 
-            return quantpy::math::special::differentiation::firstCentralDiff<T>(rhoFunc, this->_r);
+            return quantpy::math::special::differentiation::firstCentralDiff<T>(rhoFunc, this->_r, h);
 
           }
 
@@ -175,15 +179,16 @@ namespace quantpy {
            * @brief Virtual function for calculating the option theta via finite differences
            * @param St   The price of the underlying
            * @param tau  The time to maturity in years
+           * @param h    The finite difference step size. Defaults to 1e-6
            * @returns    The theta of the option
            */
-          virtual const T theta(T St, T tau) const {
+          virtual const T theta(T St, T tau, T h = 1e-6) const {
 
             auto thetaFunc = [=, this](T t) {
               return this->operator() (St, t);
             };
 
-            return quantpy::math::special::differentiation::firstCentralDiff<T>(thetaFunc, tau);
+            return quantpy::math::special::differentiation::firstCentralDiff<T>(thetaFunc, tau, h);
 
           }
 
