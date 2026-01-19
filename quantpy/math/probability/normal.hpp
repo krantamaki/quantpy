@@ -69,7 +69,7 @@ namespace quantpy {
          * @param mean  The mean of the normal distribution
          * @param std   The standard deviation of the normal distribution
          * @param p     The moment
-         * @returns     The cumulative density at the point 'x'
+         * @returns     The plain central moment
          */
         template <typename T>
         T moment(T mean, T std, int p) {
