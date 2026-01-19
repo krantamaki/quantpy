@@ -40,7 +40,7 @@ namespace quantpy {
           ERROR("The start point needs to be smaller than the end point! (", a, " >= ", b, ")");
         }
 
-        if ( nPartitions < 1 ) {
+        if ( n < 1 ) {
           ERROR("The number of interior points needs to be positive! (", n, " < 1)");
         }
 
@@ -61,8 +61,8 @@ namespace quantpy {
 
           #pragma omp for nowait 
           for (int i = 1; i < n - 1; i++) {
-            
-            if ( i & 2 == 0 ) {
+
+            if ( i % 2 == 0 ) {
               intThreadSum += twoThirds * func(a + i * h);
             }
             else {

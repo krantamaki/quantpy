@@ -40,7 +40,7 @@ namespace quantpy {
           ERROR("The start point needs to be smaller than the end point! (", a, " >= ", b, ")");
         }
 
-        if ( nPartitions < 1 ) {
+        if ( n < 1 ) {
           ERROR("The number of interior points needs to be positive! (", n, " < 1)");
         }
 
