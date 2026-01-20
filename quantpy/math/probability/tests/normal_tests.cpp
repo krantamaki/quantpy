@@ -1,5 +1,5 @@
 /**
- * @file rootFinding_tests.cpp
+ * @file normal_tests.cpp
  * @brief Definition of tests for normal density functions
  * @details Compile in the main quantpy directory with:
  * > g++ -std=c++17 -mavx -fopenmp -Wall quantpy/math/probability/tests/normal_tests.cpp -lm -o normal_tests.o
