@@ -102,7 +102,7 @@ namespace quantpy {
           virtual const T vega(T rt, T tau, T h = 1e-6) const {
 
             auto vegaFunc = [=, this](T vol) {
-              return this->operator() (rt, tau, this->r(), vol);
+              return this->operator() (rt, tau, vol);
             };
 
             return quantpy::math::special::differentiation::firstCentralDiff<T>(vegaFunc, this->_vol, h);
