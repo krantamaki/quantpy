@@ -131,7 +131,7 @@ namespace quantpy {
            * @param K       The strike price 
            * @param vol     The volatility
            * @param isCall  Boolean flag telling if the option is a call or a put. Defaults to 'true'
-           * @returns       The pricer object
+           * @returns       Inititalized BlackScholes object
            */
           BlackScholes(T r, T K, T vol, bool isCall = true) {
 
@@ -151,6 +151,7 @@ namespace quantpy {
            * @param r       The (continuously compounding) risk-free rate
            * @param K       The strike price 
            * @param isCall  Boolean flag telling if the option is a call or a put. Defaults to 'true'
+           * @returns       Inititalized BlackScholes object
            */
           BlackScholes(T Vt, T St, T tau, T r, T K, bool isCall = true) {
 
