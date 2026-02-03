@@ -16,11 +16,11 @@ namespace quantpy {
 
   namespace instruments {
 
-    namespace EuropeanOption {
+    namespace ZeroCouponBond {
 
 
       template<typename T>
-      class BaseEuropeanOptionPricer {
+      class BaseZeroCouponBondPricer {
 
         protected:
 
