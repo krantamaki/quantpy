@@ -8,6 +8,8 @@
 #define FACTORIAL_HPP
 
 
+#include <cmath>
+
 #include "../../cpp/logging.hpp"
 
 
@@ -62,6 +64,29 @@ namespace quantpy {
         }
 
         return fact;
+
+      }
+
+
+      /**
+       * @brief The general Pochhammer function
+       * @details The Pochhammer function is defined by the rising factorial \f$ (z)_n = z(z + 1) ... (z + n - 1) \f$.
+       * The function utilizes the extension for complex values \f$ (z)_a = \Gamma(z + a) / \Gamma(z) \f$ [1].
+       * [1]: See e.g. https://www.maplesoft.com/support/help/Maple/view.aspx?path=pochhammer
+       * @tparam T  The template type. Should be some floating point type
+       * @param z   The point where the Pochhammer function is evaluated
+       * @param b   The number of factors
+       * @returns   The value of the Pochhammer function
+       * 
+       */
+      template <typename T>
+      T pochhammer(T z, T b) {
+
+        if ( a == (T)0. ) {
+          return (T)1.;
+        } 
+
+        return tgamma(z + a) / tgamma(z);
 
       }
 
