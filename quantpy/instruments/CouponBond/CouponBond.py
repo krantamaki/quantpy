@@ -48,7 +48,7 @@ class CouponBond:
     @param term_structure  The term structure of interest rates for the given date
     @returns               The price of the bond
     """
-    return sum([zero(current_date, term_structure(current_date, zero.maturity_date)) for zero in self.__zeros if current_date < zero.maturity_date])
+    return sum([zero(current_date, term_structure(current_date.timedelta(zero.maturity_date))) for zero in self.__zeros if current_date < zero.maturity_date])
   
   
   @property
