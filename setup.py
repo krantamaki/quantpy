@@ -15,6 +15,9 @@ setup(
   license          = "All rights are reserved",
   packages         = ["quantpy", 
                       "quantpy.instruments",
+                      "quantpy.instruments.ZeroCouponBond",
+                      "quantpy.instruments.ZeroCouponBond.pricers",
+                      "quantpy.instruments.CouponBond",
                       "quantpy.math",
                       "quantpy.math.curve"
                       ],
