@@ -18,6 +18,8 @@ class CouponBond:
                notional: float = 100., coupon_freq: int = 1, zero_pricer: Literal["CIR", "CIRPlusPlus", "Vasicek", "ExtendedVasicek", "Discount"] = "Discount") -> None:
     """
     @brief Constructor for coupon bearing bond
+    @details The coupon dates are assumed to coincide at equivalent dates to the maturity date, i.e., if the maturity date coincides with month end then 
+    each coupon date is also month end or if the maturity date is the 15th of the month then coupon dates will also be paid on the 15th 
     @param issuance_date   The date when the bond was issued
     @param maturity_date   The maturity date of the bond
     @param coupon_rate     The coupon rate for the bond
@@ -37,8 +39,29 @@ class CouponBond:
     self.__pricer_name = zero_pricer
     
     total_coupons = round(issuance_date.timedelta(maturity_date) / (1. / coupon_freq))
-    self.__zeros  = [ZeroCouponBond(maturity_date.shift(-i * (1. / coupon_freq)), self.__notional * self.__coupon, self.__pricer_name) for i in range(1, total_coupons - 1)]
-    self.__zeros.append(ZeroCouponBond(maturity_date, self.__notional * (1. + self.__coupon), self.__pricer_name))
+    
+    self.__zeros  = []
+    
+    for i in range(total_coupons):
+      year_shift   = (maturity_date.month + i * 12 // coupon_freq) // 12
+      month_shift  = (maturity_date.month + i * 12 // coupon_freq) % 12 
+      coupon_month = maturity_date.month - month_shift
+      
+      if coupon_month <= 0:
+        coupon_month = coupon_month + 12
+      
+      if maturity_date.is_month_end():
+        coupon_date = QuantDatetime(year=maturity_date.year - year_shift, month=coupon_month, day=1, 
+                                    hour=maturity_date.hour, minute=maturity_date.minute, second=maturity_date.second, millisecond=maturity_date.millisecond)
+        coupon_date = coupon_date.next_month_end()
+      else:
+        coupon_date = QuantDatetime(year=maturity_date.year - year_shift, month=coupon_month, day=maturity_date.day, 
+                                    hour=maturity_date.hour, minute=maturity_date.minute, second=maturity_date.second, millisecond=maturity_date.millisecond)
+      
+      if i == 0:
+        self.__zeros.append(ZeroCouponBond(coupon_date, self.notional * (1. + coupon_rate / coupon_freq)))
+      else:
+        self.__zeros.append(ZeroCouponBond(coupon_date, self.notional * (coupon_rate / coupon_freq)))
     
     
   def __call__(self, current_date: QuantDatetime, term_structure: TermStructureABC) -> float:
@@ -49,6 +72,16 @@ class CouponBond:
     @returns               The price of the bond
     """
     return sum([zero(current_date, term_structure(current_date.timedelta(zero.maturity_date))) for zero in self.__zeros if current_date < zero.maturity_date])
+  
+  
+  def __str__(self) -> str:
+    """Simple string representation"""
+    return f"Maturity date: {self.__maturity}\nNotional: {self.__notional}\nCoupon rate: {self.__coupon}\nCoupon frequency: {self.__coupon_freq}"
+  
+  
+  def __repr__(self) -> str:
+    """Comprehensive string representation"""
+    return f"{str(self)}\nIssuance date: {self.__issuance}\nZero pricer: {self.__pricer_name}"
   
   
   @property

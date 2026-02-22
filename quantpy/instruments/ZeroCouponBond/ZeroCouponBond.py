@@ -24,9 +24,9 @@ class ZeroCouponBond:
     """
     assert pricer in ["CIR", "CIRPlusPlus", "Vasicek", "ExtendedVasicek", "Discount"], f"Invalid pricer name specified! ({pricer} not in ['CIR', 'CIRPlusPlus', 'Vasicek', 'ExtendedVasicek', 'Discount'])"
     
-    self.__maturity   = maturity_date
-    self.__notional   = notional
-    # self.__pricer_name = pricer
+    self.__maturity    = maturity_date
+    self.__notional    = notional
+    self.__pricer_name = pricer
     
     self.__pricer = DiscountPricer(maturity_date, notional)
     
@@ -40,6 +40,16 @@ class ZeroCouponBond:
     @returns               The value of the zero-coupon bond
     """
     return self.__pricer(current_date, risk_free_rate)
+  
+  
+  def __str__(self) -> str:
+    """Simple string representation"""
+    return f"Maturity date: {self.__maturity}\nNotional: {self.__notional}"
+  
+  
+  def __repr__(self) -> str:
+    """Comprehensive string representation"""
+    return f"{str(self)}\nPricer: {self.__pricer_name}"
   
   
   @property

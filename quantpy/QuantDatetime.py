@@ -324,7 +324,7 @@ class QuantDatetime:
   def is_bank_date(self) -> bool:
     """
     @brief Checks if this date is a bank day
-    @returns  True if this day is bank day False otherwisw
+    @returns  True if this day is bank day False otherwise
     """
     return self.__calendar.isBusinessDay(self.__ql_date)
   
@@ -350,6 +350,50 @@ class QuantDatetime:
     prev_date = self.shift(days=-1)
     
     while not prev_date.is_bank_date():
+      prev_date = prev_date.shift(days=-1)
+      
+    return prev_date
+  
+  
+  def is_month_end(self) -> bool:
+    """
+    @brief Checks if the date is a month end
+    @returns  True if this day is month end False otherwise
+    """
+    next_date = self.shift(days=1)
+    
+    return next_date.month != self.month
+    
+    
+  def next_month_end(self) -> QuantDatetime:
+    """
+    @brief Iterates until the next month end is found. 
+    @details If this date is month end returns self
+    @returns The next month end
+    """
+    if self.is_month_end():
+      return self
+    
+    next_date = self.shift(days=1)
+    
+    while next_date.month == self.month:
+      next_date = next_date.shift(days=1)
+      
+    return next_date.shift(days=-1)
+  
+  
+  def prev_month_end(self) -> QuantDatetime:
+    """
+    @brief Iterates until the last month end is found. 
+    @details If this date is month end returns self
+    @returns The last month end
+    """
+    if self.is_month_end():
+      return self
+    
+    prev_date = self.shift(days=-1)
+    
+    while prev_date.month == self.month:
       prev_date = prev_date.shift(days=-1)
       
     return prev_date
