@@ -3,8 +3,8 @@
 @author Kasper Rantamäki
 @date 2026-02-22
 """
-import instruments
-import math
+from . import instruments
+from . import math
 
 from .QuantDatetime import QuantDatetime
 

@@ -3,7 +3,7 @@
 @author Kasper Rantamäki
 @date 2026-02-22
 """
-import curve
+from . import curve
 
 
 __all__ = ["curve"]
