@@ -5,7 +5,7 @@
 """
 import numpy as np
 
-from .ZeroCouponPricerABC import ZeroCouponBondPricerABC
+from .ZeroCouponBondPricerABC import ZeroCouponBondPricerABC
 from ....QuantDatetime import QuantDatetime
 
 

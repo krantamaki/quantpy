@@ -3,8 +3,8 @@
 @author Kasper Rantamäki
 @date 2026-02-22
 """
-from .ZeroCouponPricerABC import ZeroCouponPricerABC
+from .ZeroCouponBondPricerABC import ZeroCouponBondPricerABC
 from .DiscountPricer import DiscountPricer
 
 
-__all__ = ["ZeroCouponPricerABC", "DiscountPricer"]
+__all__ = ["ZeroCouponBondPricerABC", "DiscountPricer"]

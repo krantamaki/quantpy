@@ -86,7 +86,7 @@ class QuantDatetime:
     
     assert (month > 0)        and (month < 13),         f"Month out of range! ({month} not between 1 and 12)"
     assert (day > 0)          and (day < 32),           f"Day out of range! ({day} not between 1 and 31)"
-    assert (hour >= 0)        and (day < 25),           f"Hour out of range! ({hour} not between 0 and 23)"
+    assert (hour >= 0)        and (hour < 25),           f"Hour out of range! ({hour} not between 0 and 23)"
     assert (minute >= 0)      and (minute < 60),        f"Minute out of range! ({minute} not between 0 and 59)"
     assert (second >= 0)      and (second < 60),        f"Second out of range! ({second} not between 0 and 59)"
     assert (millisecond >= 0) and (millisecond < 1000), f"millisecond out of range! ({millisecond} not between 0 and 999)"
@@ -188,25 +188,25 @@ class QuantDatetime:
   @property
   def hour(self) -> int:
     """The hour of the datetime"""
-    return self.__year
+    return self.__hour
   
   
   @property
   def minute(self) -> int:
     """The minute of the datetime"""
-    return self.__month
+    return self.__minute
   
   
   @property
   def second(self) -> int:
     """The second of the datetime"""
-    return self.__day
+    return self.__second
   
   
   @property
   def millisecond(self) -> int:
     """The millisecond of the datetime"""
-    return self.__day
+    return self.__millisecond
   
   
   @property
