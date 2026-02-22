@@ -43,20 +43,21 @@ class CouponBond:
     self.__zeros  = []
     
     for i in range(total_coupons):
-      year_shift   = (maturity_date.month + i * 12 // coupon_freq) // 12
-      month_shift  = (maturity_date.month + i * 12 // coupon_freq) % 12 
-      coupon_month = maturity_date.month - month_shift
+      year_shift   = (maturity_date.month - i * 12 // coupon_freq) // 12
+      coupon_month = (maturity_date.month - i * 12 // coupon_freq) % 12 
       
       if coupon_month <= 0:
         coupon_month = coupon_month + 12
       
       if maturity_date.is_month_end():
-        coupon_date = QuantDatetime(year=maturity_date.year - year_shift, month=coupon_month, day=1, 
-                                    hour=maturity_date.hour, minute=maturity_date.minute, second=maturity_date.second, millisecond=maturity_date.millisecond)
+        coupon_date = QuantDatetime(year=maturity_date.year + year_shift, month=coupon_month, day=1, 
+                                    hour=maturity_date.hour, minute=maturity_date.minute, second=maturity_date.second, millisecond=maturity_date.millisecond,
+                                    calendar = maturity_date.calendar, convention = maturity_date.convention)
         coupon_date = coupon_date.next_month_end()
       else:
-        coupon_date = QuantDatetime(year=maturity_date.year - year_shift, month=coupon_month, day=maturity_date.day, 
-                                    hour=maturity_date.hour, minute=maturity_date.minute, second=maturity_date.second, millisecond=maturity_date.millisecond)
+        coupon_date = QuantDatetime(year=maturity_date.year + year_shift, month=coupon_month, day=maturity_date.day, 
+                                    hour=maturity_date.hour, minute=maturity_date.minute, second=maturity_date.second, millisecond=maturity_date.millisecond,
+                                    calendar = maturity_date.calendar, convention = maturity_date.convention)
       
       if i == 0:
         self.__zeros.append(ZeroCouponBond(coupon_date, self.notional * (1. + coupon_rate / coupon_freq)))

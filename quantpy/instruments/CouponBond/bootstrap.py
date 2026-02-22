@@ -24,7 +24,7 @@ def bootstrap(current_date: QuantDatetime, bonds: List[CouponBond], prices: List
   assert len(bonds) == len(prices), f"There needs to be an equal number of bonds and prices! ({len(bonds)} != {len(prices)})"
   
   bond_price_tuples = list(zip(bonds, prices))
-  bond_price_tuples = bond_price_tuples.sort(key=lambda tup: tup[0].maturity_date)
+  bond_price_tuples.sort(key=lambda tup: tup[0].maturity_date)
   
   bond_arr  = [tup[0] for tup in bond_price_tuples]
   price_arr = [tup[1] for tup in bond_price_tuples]
@@ -33,16 +33,25 @@ def bootstrap(current_date: QuantDatetime, bonds: List[CouponBond], prices: List
   system_matrix = np.zeros((len(price_arr), len(tau_arr)))
   
   for row, bond in enumerate(bond_arr):
+    active_zeros = [zero for zero in bond.zeros if zero.maturity_date >= current_date]
+    
     if row == 0:
-      assert len(bond.zeros) == 1, f"The bond with shortest time to maturity must have a single coupon!"
+      assert len(active_zeros) == 1, f"The bond with shortest time to maturity must have a single coupon!"
 
-    for zero in enumerate(bond.zeros):
+    for zero in active_zeros:
       zero_tau = current_date.timedelta(zero.maturity_date)
       
       if zero_tau in tau_arr:
         system_matrix[row, tau_arr.index(zero_tau)] = zero.notional
       else:
-        sup_i = [i for i, val in enumerate(tau_arr) if val > zero_tau][0]
+        try:
+          sup_i = [i for i, val in enumerate(tau_arr) if val >= zero_tau][0]
+        except IndexError:
+          print(zero_tau)
+          print(tau_arr)
+          print(repr(zero))
+          print(repr(bond))
+          raise IndexError("Index out of range")
         inf_i = sup_i - 1
         
         sup = tau_arr[sup_i]
