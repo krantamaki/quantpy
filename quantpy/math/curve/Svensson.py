@@ -3,7 +3,7 @@
 @author Kasper Rantamäki
 @date 2026-02-24
 """
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Dict
 import numpy as np
 from scipy.optimize import curve_fit
 
@@ -29,15 +29,16 @@ class Svensson(TermStructureABC):
   Working Paper 4871, National Bureau of Economic Research, 1994.
   """
   
-  def __init__(self, yields: np.ndarray[float], maturities: np.ndarray[float], init_params: Optional[List[float]] = None) -> None:
+  def __init__(self, yields: np.ndarray[float], maturities: np.ndarray[float], init_params: Optional[List[float]] = None, **kwargs: Dict[any, any]) -> None:
     """
     @brief Constructor method for the Svensson term-structure model
     @param yields       Array of observed zero-coupon yields
     @param maturities   Array of year fractions corresponding with the zero-coupon yields
     @param init_params  Initial guess for the model parameters as a list of form [tau_1, tau_2, beta_0, beta_1, beta_2, beta_3]. Optional
+    @param **kwargs     Optional keyword arguments. To be passed to the scipy.optimize.curve_fit function
     @returns            None
     """
-    popt, _ = curve_fit(_svensson, maturities, yields, p0=init_params)
+    popt, _ = curve_fit(_svensson, maturities, yields, p0=init_params, **kwargs)
     
     self.__tau_1  = popt[0]
     self.__tau_2  = popt[1]
