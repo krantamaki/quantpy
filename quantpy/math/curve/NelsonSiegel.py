@@ -1,5 +1,5 @@
 """
-@package quantpy.math.curve.NelssonSiegel
+@package quantpy.math.curve.NelsonSiegel
 @author Kasper Rantamäki
 @date 2026-02-24
 """
@@ -10,7 +10,7 @@ from scipy.optimize import curve_fit
 from .TermStructureABC import TermStructureABC
 
 
-__all__ = ["NelssonSiegel"]
+__all__ = ["NelsonSiegel"]
 
 
 def _nelson_siegel(maturities: np.ndarray[float], tau: float, beta_0: float, beta_1: float, beta_2: float) -> np.ndarray[float]:
@@ -19,7 +19,7 @@ def _nelson_siegel(maturities: np.ndarray[float], tau: float, beta_0: float, bet
     + beta_2 * ((1. - np.exp(-maturities / tau)) / (maturities / tau) - np.exp(-maturities / tau))
 
 
-class NelssonSiegel(TermStructureABC):
+class NelsonSiegel(TermStructureABC):
   """
   @brief Term-structure model based on the Nelson-Siegel model
   @details For more information on the model see the original paper [1]
