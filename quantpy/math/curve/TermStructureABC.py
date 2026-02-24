@@ -3,7 +3,9 @@
 @author Kasper Rantamäki
 @date 2026-02-22
 """
+from typing import Union
 from abc import abstractmethod, ABC
+import numpy as np
 
 
 class TermStructureABC(ABC):
@@ -11,11 +13,11 @@ class TermStructureABC(ABC):
   
   
   @abstractmethod
-  def __call__(self, tau: float) -> float:
+  def __call__(self, maturity: Union[np.ndarray[float], float]) -> Union[np.ndarray[float], float]:
     """
     @brief The call method
     @details Computes the value on the term structure for a given year fraction
-    @param tau  The given year fraction
-    @returns    The value on the term structure
+    @param maturity  The given year fraction
+    @returns         The value on the term structure
     """
     pass
