@@ -36,8 +36,6 @@ class MultidynamicModel(TermStructureABC):
     """
     popt, _ = curve_fit(_multidynamic_model, maturities, yields, p0=init_params, **kwargs)
     
-    print(popt)
-    
     self.__tau    = popt[0]
     self.__beta_0 = popt[1]
     self.__beta_1 = popt[2]

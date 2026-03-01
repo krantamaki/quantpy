@@ -6,6 +6,7 @@
 from .TermStructureABC import TermStructureABC
 from .NelsonSiegel import NelsonSiegel
 from .Svensson import Svensson
+from .MultidynamicModel import MultidynamicModel
 
 
-__all__ = ["TermStructureABC", "NelsonSiegel", "Svensson"]
+__all__ = ["TermStructureABC", "NelsonSiegel", "Svensson", "MultidynamicModel"]
