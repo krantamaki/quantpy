@@ -3,7 +3,7 @@
 @author Kasper Rantamäki
 @date 2026-02-22
 """
-from typing import Union
+from typing import Union, Dict, Optional
 from abc import abstractmethod, ABC
 import numpy as np
 
@@ -21,3 +21,13 @@ class TermStructureABC(ABC):
     @returns         The value on the term structure
     """
     pass
+
+
+  @property
+  @abstractmethod
+  def params(self) -> Optional[Dict[any, any]]:
+    """
+    @brief Property for accessing the model parameters (if applicable)
+    """
+    pass
+  

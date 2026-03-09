@@ -51,3 +51,7 @@ class Svensson(TermStructureABC):
   def __call__(self, maturity: Union[np.ndarray[float], float]) -> Union[np.ndarray[float], float]:
     return _svensson(maturity, self.__tau_1, self.__tau_2, self.__beta_0, self.__beta_1, self.__beta_2, self.__beta_3)
     
+    
+  @property
+  def params(self) -> Optional[Dict[any, any]]:
+    return {"tau_1": self.__tau_1, "tau_2": self.__tau_2, "beta_0": self.__beta_0, "beta_1": self.__beta_1, "beta_2": self.__beta_2, "beta_3": self.__beta_3}

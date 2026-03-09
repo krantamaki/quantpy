@@ -47,3 +47,8 @@ class NelsonSiegel(TermStructureABC):
   def __call__(self, maturity: Union[np.ndarray[float], float]) -> Union[np.ndarray[float], float]:
     return _nelson_siegel(maturity, self.__tau, self.__beta_0, self.__beta_1, self.__beta_2)
     
+
+  @property
+  def params(self) -> Optional[Dict[any, any]]:
+    return {"tau": self.__tau, "beta_0": self.__beta_0, "beta_1": self.__beta_1, "beta_2": self.__beta_2}
+  
