@@ -3,7 +3,7 @@
 @author Kasper Rantamäki
 @date 2026-02-24
 """
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Dict
 import numpy as np
 from scipy.optimize import curve_fit
 
@@ -16,8 +16,10 @@ __all__ = ["MultidynamicModel"]
 def _multidynamic_model(maturities: np.ndarray[float], tau: float, beta_0: float, beta_1: float, 
                         beta_2: float, beta_3: float, beta_4: float) -> np.ndarray[float]:
   """Multidynamic model. Can be passed to scipy.optimize.curve_fit"""
-  return beta_0 + beta_1 / 2. * maturities + tau / maturities * (beta_2 + beta_3) * (1. - np.exp(-maturities / tau)) \
-    + beta_3 * np.exp(-maturities / tau) - beta_4 * np.pow(maturities, 2.)
+  # return beta_0 + beta_1 / 2. * maturities + tau / maturities * (beta_2 + beta_3) * (1. - np.exp(-maturities / tau)) \
+  #   + beta_3 * np.exp(-maturities / tau) - beta_4 * np.pow(maturities, 2.)
+  return beta_0 + tau / maturities * (beta_1 + beta_2) * (1 - np.exp(-maturities / tau)) - beta_2 * np.exp(-maturities / tau) \
+       + beta_3 * maturities + beta_4 * np.pow(maturities, 2.)
 
 
 class MultidynamicModel(TermStructureABC):
@@ -47,3 +49,7 @@ class MultidynamicModel(TermStructureABC):
   def __call__(self, maturity: Union[np.ndarray[float], float]) -> Union[np.ndarray[float], float]:
     return _multidynamic_model(maturity, self.__tau, self.__beta_0, self.__beta_1, self.__beta_2, self.__beta_3, self.__beta_4)
     
+
+  @property
+  def params(self) -> Optional[Dict[any, any]]:
+    return {"tau": self.__tau, "beta_0": self.__beta_0, "beta_1": self.__beta_1, "beta_2": self.__beta_2, "beta_3": self.__beta_3, "beta_4": self.__beta_4}
