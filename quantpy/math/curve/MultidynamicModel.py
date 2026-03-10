@@ -16,10 +16,8 @@ __all__ = ["MultidynamicModel"]
 def _multidynamic_model(maturities: np.ndarray[float], tau: float, beta_0: float, beta_1: float, 
                         beta_2: float, beta_3: float, beta_4: float) -> np.ndarray[float]:
   """Multidynamic model. Can be passed to scipy.optimize.curve_fit"""
-  # return beta_0 + beta_1 / 2. * maturities + tau / maturities * (beta_2 + beta_3) * (1. - np.exp(-maturities / tau)) \
-  #   + beta_3 * np.exp(-maturities / tau) - beta_4 * np.pow(maturities, 2.)
   return beta_0 + tau / maturities * (beta_1 + beta_2) * (1 - np.exp(-maturities / tau)) - beta_2 * np.exp(-maturities / tau) \
-       + beta_3 * maturities + beta_4 * np.pow(maturities, 2.)
+       + beta_3 * maturities - beta_4 * np.pow(maturities, 2.)
 
 
 class MultidynamicModel(TermStructureABC):
