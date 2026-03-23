@@ -8,6 +8,8 @@ This directory contains the Jupyter notebooks and the LaTex source code for the 
 
 - `latex` directory contains the LaTex source code for building the study documentation
 
+- `00_refinitiv_bond_history.ipynb` Jupyter notebook that can be used to source the data used in the study in Refinitiv's Codebook environment
+
 - `01_comp_of_term_structure_models.ipynb` Jupyter notebook contains the code used in the analysis in Chapter 5.1 in the study
 
 - `02_info_in_the_MultidynamicModel_params.ipynb` Jupyter notebook contains the code used in the analysis in Chapter 5.2 in the study
