@@ -11,3 +11,5 @@ This directory contains the Jupyter notebooks and the LaTex source code for the 
 - `00_refinitiv_bond_history.ipynb` Jupyter notebook that can be used to source the data used in the study in Refinitiv's Codebook environment
 
 - `02_expectations_hypothesis.ipynb` Jupyter notebook for testing the (pure) expectations hypothesis with a long time-series of observed yield curves
+
+- `02_expectations_hypothesis.ipynb` Jupyter notebook for testing the existance of a risk premium with a long time-series of observed yield curves
