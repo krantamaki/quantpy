@@ -12,4 +12,4 @@ This directory contains the Jupyter notebooks and the LaTex source code for the 
 
 - `02_expectations_hypothesis.ipynb` Jupyter notebook for testing the (pure) expectations hypothesis with a long time-series of observed yield curves
 
-- `02_expectations_hypothesis.ipynb` Jupyter notebook for testing the existance of a risk premium with a long time-series of observed yield curves
+- `03_risk_premium.ipynb` Jupyter notebook for testing the existance of a risk premium with a long time-series of observed yield curves
